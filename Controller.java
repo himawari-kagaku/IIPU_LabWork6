@@ -19,6 +19,7 @@ public class Controller {
     TreeView<Label> treeView;
     AnchorPane treePane = new AnchorPane();
     Button connectButton = new Button("Connect");
+    Hyperlink refreshLink = new Hyperlink("↺");
     Boolean isUpdateWorking = true;
     volatile Boolean isConnecting = false;
 
@@ -33,7 +34,7 @@ public class Controller {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        TreeItem<Label> rootItem = new TreeItem<Label> (new Label("USB"));
+        TreeItem<Label> rootItem = new TreeItem<Label> (new Label("Wi-Fi"));
         rootItem.setExpanded(true);
         for (NavigableMap<Integer, LinkedList<String>> map : tree) {
             int key = Collections.max(map.keySet());
@@ -55,6 +56,11 @@ public class Controller {
     public Button getConnectButton(){
         connectButton.setOnAction(e -> connectButtonAction());
         return connectButton;
+    }
+
+    public Hyperlink getRefreshLink(){
+        refreshLink.setOnAction(e -> refreshLinkAction());
+        return refreshLink;
     }
 
     public void start(){
@@ -79,13 +85,16 @@ public class Controller {
                                             treePane.getChildren().clear();
                                             treePane.getChildren().add(treeView);
                                             treePane.getChildren().add(connectButton);
+                                            treePane.getChildren().add(refreshLink);
                                             AnchorPane.setTopAnchor(treeView, 0.0);
                                             AnchorPane.setRightAnchor(treeView, 0.0);
                                             AnchorPane.setLeftAnchor(treeView, 0.0);
-                                            AnchorPane.setBottomAnchor(treeView, 20.0);
-                                            AnchorPane.setBottomAnchor(connectButton, 0.0);
-                                            AnchorPane.setLeftAnchor(connectButton, 0.0);
+                                            AnchorPane.setBottomAnchor(treeView, 50.0);
                                             AnchorPane.setRightAnchor(connectButton, 0.0);
+                                            AnchorPane.setLeftAnchor(connectButton, 0.0);
+                                            AnchorPane.setBottomAnchor(connectButton, 0.0);
+                                            AnchorPane.setRightAnchor(refreshLink, 20.0);
+                                            AnchorPane.setTopAnchor(refreshLink, 0.0);
                                         }
                                     });
                                 }
@@ -239,14 +248,37 @@ public class Controller {
         if (result.isPresent()){
             System.out.println("Password: " + result.get());
             try {
-                String command = "networksetup -setairportnetwork en0 "+networkName+" "+result.get();
-                System.out.println(command);
-                Process mountProcess = Runtime.getRuntime().exec(command);
+                //String command = "sudo networksetup -setairportnetwork en0 '"+networkName+"' "+result.get();
+                String[] cmd = {"networksetup", "-setairportnetwork", "en0", networkName, result.get()};
+                System.out.println(cmd);
+                Process mountProcess = Runtime.getRuntime().exec(cmd);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         isConnecting=false;
 
+    }
+
+    private void refreshLinkAction(){
+        treeView = getTreeView();
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run() {
+                treePane.getChildren().clear();
+                treePane.getChildren().add(treeView);
+                treePane.getChildren().add(connectButton);
+                treePane.getChildren().add(refreshLink);
+                AnchorPane.setTopAnchor(treeView, 0.0);
+                AnchorPane.setRightAnchor(treeView, 0.0);
+                AnchorPane.setLeftAnchor(treeView, 0.0);
+                AnchorPane.setBottomAnchor(treeView, 50.0);
+                AnchorPane.setRightAnchor(connectButton, 0.0);
+                AnchorPane.setLeftAnchor(connectButton, 0.0);
+                AnchorPane.setBottomAnchor(connectButton, 0.0);
+                AnchorPane.setRightAnchor(refreshLink, 20.0);
+                AnchorPane.setTopAnchor(refreshLink, 0.0);
+            }
+        });
     }
 }
