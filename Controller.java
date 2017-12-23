@@ -1,78 +1,16 @@
 package sample;
 
 import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.util.Pair;
-import org.w3c.dom.*;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import org.w3c.dom.NodeList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-
-
-/*
-SPParallelATADataType
-SPUniversalAccessDataType
-SPApplicationsDataType
-SPAudioDataType
-SPBluetoothDataType
-SPCameraDataType
-SPCardReaderDataType
-SPComponentDataType
-SPDeveloperToolsDataType
-SPDiagnosticsDataType
-SPDisabledSoftwareDataType
-SPDiscBurningDataType
-SPEthernetDataType
-SPExtensionsDataType
-SPFibreChannelDataType
-SPFireWireDataType
-SPFirewallDataType
-SPFontsDataType
-SPFrameworksDataType
-SPDisplaysDataType
-SPHardwareDataType
-SPHardwareRAIDDataType
-SPInstallHistoryDataType
-SPNetworkLocationDataType
-SPLogsDataType
-SPManagedClientDataType
-SPMemoryDataType
-SPNVMeDataType
-SPNetworkDataType
-SPPCIDataType
-SPParallelSCSIDataType
-SPPowerDataType
-SPPrefPaneDataType
-SPPrintersSoftwareDataType
-SPPrintersDataType
-SPConfigurationProfileDataType
-SPSASDataType
-SPSerialATADataType
-SPSPIDataType
-SPSoftwareDataType
-SPStartupItemDataType
-SPStorageDataType
-SPSyncServicesDataType
-SPThunderboltDataType
-SPUSBDataType
-SPNetworkVolumeDataType
-SPWWANDataType
-SPAirPortDataType
-SPiBridgeDataType
-
- */
 
 
 public class Controller {
@@ -119,8 +57,6 @@ public class Controller {
         return connectButton;
     }
 
-
-
     public void start(){
         try {
 
@@ -166,62 +102,6 @@ public class Controller {
                 }
             });
             myThready.start();
-
-
-            PrintWriter writer = new PrintWriter("the-file-name.txt", "UTF-8");
-
-            /*BufferedReader mountOutput = null;
-            Process mountProcess = Runtime.getRuntime().exec("system_profiler -xml SPAirPortDataType");
-            mountOutput = new BufferedReader(new InputStreamReader(
-                    mountProcess.getInputStream()));
-            while(true){
-                String line = mountOutput.readLine();
-                if (line == null) {
-                    break;
-                }
-                writer.println(line);
-            }
-            writer.close();
-
-            DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance()
-                    .newDocumentBuilder();
-
-            Document doc = dBuilder.parse("the-file-name.txt");
-
-            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-
-            if (doc.hasChildNodes()) {
-
-                printNote(doc.getChildNodes());
-
-            }*/
-
-
-
-
-            /*
-            System.out.println("List of devices:");
-            System.out.println();
-            // Просматриваем все подэлементы корневого - т.е. книги
-            NodeList books = root.getChildNodes();
-            for (int i = 0; i < books.getLength(); i++) {
-                Node book = books.item(i);
-                // Если нода не текст, то это книга - заходим внутрь
-                if (book.getNodeType() != Node.TEXT_NODE) {
-                    NodeList bookProps = book.getChildNodes();
-                    for(int j = 0; j < bookProps.getLength(); j++) {
-                        Node bookProp = bookProps.item(j);
-                        // Если нода не текст, то это один из параметров книги - печатаем
-                        if (bookProp.getNodeType() != Node.TEXT_NODE) {
-                            System.out.println(bookProp.getNodeName() + ":" + bookProp.getChildNodes().item(0).getTextContent());
-                        }
-                    }
-                    System.out.println("===========>>>>");
-                }
-            }*/
-
-        } catch (IOException ex) {
-            ex.printStackTrace(System.out);
         } catch(Exception ex){
             ex.printStackTrace();
         }
